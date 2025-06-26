@@ -3,14 +3,12 @@ import java.util.*;
 class Solution {
     public String solution(int[] numbers, String hand) {
         StringBuilder answer = new StringBuilder();
-        Map<Integer, int[]> keyPad = Map.of(
-            1, new int[]{0, 0}, 2, new int[]{0, 1}, 3, new int[]{0, 2}, 4, new int[]{1, 0}, 5, new int[]{1, 1}, 
-            6, new int[]{1, 2}, 7, new int[]{2, 0}, 8, new int[]{2, 1}, 9, new int[]{2, 2}, 0, new int[]{3, 1});
+        int[][] keyPad = {{3,1},{0,0},{0,1},{0,2},{1,0},{1,1},{1,2},{2,0},{2,1},{2,2}};
         int[] left = {3, 0};
         int[] right = {3, 2};
 
         for (int number : numbers) {
-            int[] target = keyPad.get(number);
+            int[] target = keyPad[number];
 
             if (number == 1 || number == 4 || number == 7) {
                 move(left, target);

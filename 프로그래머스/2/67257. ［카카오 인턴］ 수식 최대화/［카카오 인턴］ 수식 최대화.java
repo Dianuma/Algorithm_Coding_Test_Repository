@@ -9,11 +9,9 @@ class Solution {
         
         long answer = 0;
         
-        for ( String[] ope : operator ) {
-            System.out.printf("\n%c  %c  %c\n", ope[0].charAt(1), ope[1].charAt(1), ope[2].charAt(1));
-            
+        for ( String[] ope : operator ) 
             answer = Math.max(answer, Math.abs(calc(expression, ope, 0)));
-        }
+    
         return answer;
     }
     

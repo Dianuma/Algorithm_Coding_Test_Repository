@@ -1,57 +1,50 @@
 import java.util.*;
 
 class Solution {
-    Map<Integer, List<Integer>> nodeMap = new HashMap<>();
-    Map<Integer, Boolean> isReverse = new HashMap<>();
-    List<List<Integer>> trees = new ArrayList<>();
     public Object solution(int[] nodes, int[][] edges) {
-        List<Integer> node = new ArrayList<>();
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        Map<Integer, Boolean> isReverse = new HashMap<>();
+        Set<Integer> visited = new HashSet<>();
+        List<List<Integer>> trees = new ArrayList<>();
         int[] answer = {0, 0};
-        for ( int n : nodes ) {
-            nodeMap.put(n, new ArrayList<>());
-            node.add(n);
+
+        // 그래프 초기화
+        for (int n : nodes) graph.put(n, new ArrayList<>());
+        for (int[] edge : edges) {
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
         }
-        for ( int[] edge : edges ) {
-            nodeMap.get(edge[0]).add(edge[1]);
-            nodeMap.get(edge[1]).add(edge[0]);
+
+        // 각 노드가 역홀짝인지 판단
+        for (int n : nodes) isReverse.put(n, n % 2 != (graph.get(n).size() - 1) % 2);
+
+        // DFS로 트리 분리
+        for (int n : nodes) {
+            if (!visited.contains(n)) {
+                List<Integer> tree = new ArrayList<>();
+                dfs(n, graph, visited, tree);
+                trees.add(tree);
+            }
         }
-        for ( Map.Entry<Integer, List<Integer>> entry : nodeMap.entrySet() ) {
-            isReverse.put(entry.getKey(), entry.getKey() % 2 != ( entry.getValue().size() - 1 ) % 2 );
-        }
-        
-        dfs(node, new ArrayList<>(), new HashSet<>(), 0);
-        
-        for ( List<Integer> tree : trees ) {
+
+        // 각 트리에 대해 홀짝 / 역홀짝 판단
+        for (List<Integer> tree : trees) {
             int f = 0, r = 0;
-            for ( Integer n : tree ) {
-                if ( isReverse.get(n) ) r++;
+            for (int n : tree) {
+                if (isReverse.get(n)) r++;
                 else f++;
             }
-            if ( f == 1 ) answer[1]++;
-            if ( r == 1 ) answer[0]++;
+            if (f == 1) answer[1]++;
+            if (r == 1) answer[0]++;
         }
-        
+
         return answer;
     }
-    
-    void dfs(List<Integer> keys, List<Integer> tree, HashSet<Integer> visited, int k) {
-        for ( Integer key : keys ) {
-            if ( visited.contains(key) ) continue;
-            visited.add(key);
-            tree.add(key);
-            dfs(nodeMap.get(key), tree, visited, k+1);
-            if ( k == 0 ) {
-                trees.add(tree);
-                tree = new ArrayList<>();
-            }
-        }
+
+    void dfs(int node, Map<Integer, List<Integer>> graph, Set<Integer> visited, List<Integer> tree) {
+        visited.add(node);
+        tree.add(node);
+        for (int next : graph.get(node)) 
+            if (!visited.contains(next)) dfs(next, graph, visited, tree);
     }
 }
-
-/* 
-홀짝 -> ( edge - 1 ) % 2 != node % 2 인 노드가 단 한개
-역홀짝 -> ( edge - 1 ) % 2 == node % 2 인 노드가 단 한개
-
-노드 구성
-
-*/ 

@@ -1,7 +1,4 @@
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Collection;
-
+import java.util.*;
 class Solution {
     public Integer solution(String[][] clothes) {
         Integer result = 1;

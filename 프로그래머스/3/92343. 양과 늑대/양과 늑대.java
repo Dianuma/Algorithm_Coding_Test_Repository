@@ -1,33 +1,29 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 class Solution {
-    int maxSheep = 0;
-    
-    public int solution(int[] info, int[][] edges) {
-        List<List<Integer>> graph = new ArrayList<>();
-        for (int i = 0; i < info.length; i++) graph.add(new ArrayList<>());
-        for (int[] edge : edges) graph.get(edge[0]).add(edge[1]);
-        
-        dfs(0, 0, 0, new boolean[info.length], graph, info, new ArrayList<>(List.of(0)));
-        
-        return maxSheep;
+    int max = 0;
+    public Object solution(int[] info, int[][] edges) {
+        Map<Integer, List<int[]>> edgeMap = Arrays.stream(edges).collect(Collectors.groupingBy(arr -> arr[0]));
+        Set<Integer> set = new HashSet<>();
+        set.add(0);
+        dfs(info, edgeMap, new int[info.length], set, 0, 0, 0);
+        return max;
     }
     
-    void dfs(int curr, int sheep, int wolf, boolean[] visited, List<List<Integer>> graph, int[] info, List<Integer> canVisit) {
-        if ( info[curr] == 0 ) sheep++;
-        else wolf++;
+    void dfs (int[] info, Map<Integer, List<int[]>> edgeMap, int[] visited, Set<Integer> visit, int curr, int sheep, int wolf) {
+        if ( info[curr] == 0 ) sheep++; else wolf++;
+        max = Math.max ( sheep, max ); 
+        if ( sheep - wolf <= 0 || visit.isEmpty() ) return;
         
-        if ( sheep == wolf ) return;
-        maxSheep = Math.max(maxSheep, sheep);
-        
-        visited[curr] = true;
-        List<Integer> nextCanVisit = new ArrayList<>(canVisit);
-        nextCanVisit.remove((Integer) curr);
-        
-        for ( int node : graph.get(curr) ) nextCanVisit.add(node);
-        
-        for ( int next : nextCanVisit ) 
-            if ( !visited[next] ) dfs(next, sheep, wolf, Arrays.copyOf(visited, visited.length), graph, info, nextCanVisit);
-        
+        visit.remove(curr);
+        visited[curr] = 1;      
+
+        if ( edgeMap.containsKey(curr) ) {
+            for ( int[] edge : edgeMap.get(curr) ) if ( visited[edge[1]] == 0 ) visit.add(edge[1]);
+        }
+
+        for ( int next : visit ) dfs(info, edgeMap, visited.clone(), new HashSet<>(visit), next, sheep, wolf);
+
     }
 }

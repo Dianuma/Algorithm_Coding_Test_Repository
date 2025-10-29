@@ -1,10 +1,10 @@
 # [level 2] 미로 탈출 - 159993 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159993?language=python3#) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/159993?gad_source=1&gad_campaignid=22799790467&gbraid=0AAAAAC_c4nAyNp3n_ah-JGnXgdYFM3zqy&gclid=Cj0KCQjw9obIBhCAARIsAGHm1mTNmapV_hQekoDyCLFhy1XaHZjKuRFPBeNFXGm3iCNGznFRc9VKzk4aAv2DEALw_wcB) 
 
 ### 성능 요약
 
-메모리: 9.89 MB, 시간: 12.81 ms
+메모리: 10 MB, 시간: 18.35 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 10월 29일 21:20:13
+2025년 10월 30일 00:49:31
 
 ### 문제 설명
 

@@ -1,17 +1,38 @@
 from collections import deque
 def solution(maps):
-    def bfs(maps, start, end):
-        d, q, visited = [(-1, 0), (0, -1), (1, 0), (0, 1)], deque([(*start, 0)]), set(start)
-        R, C = len(maps), len(maps[0])
+    answer = 0
+    direction = [[0,1],[0,-1],[1,0],[-1,0]]
+    n,m = len(maps),len(maps[0])
+    # 출발 지점
+    for i in range(n):
+        for j in range(m):
+            if maps[i][j] == 'S':
+                sx,sy = i,j
+    # 레버 찾기
+    def bfs(x,y,end):
+        q = deque()
+        q.append([x,y])
+        visited = [[-1]*m for _ in range(n)]
+        visited[x][y] = 0
         while q:
-            r, c, time = q.popleft()
-            for dr, dc in d:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < R and 0 <= nc < C and (nr, nc) not in visited and maps[nr][nc] != "X":
-                    if maps[nr][nc] == end: return time + 1
-                    visited.add((nr, nc))
-                    q.append((nr, nc, time + 1))
-        return 0
-    visit = {maps[r][c]: (r, c) for r in range(len(maps)) for c in range(len(maps[0])) if maps[r][c] in "SEL"}
-    a, b = bfs(maps, visit["S"], "L"), bfs(maps, visit["L"], "E")
-    return a + b if a and b else -1
+            x,y = q.popleft()
+            if maps[x][y] == end:
+                return [visited[x][y],x,y]
+            for dir in direction:
+                nx = x + dir[0]
+                ny = y + dir[1]
+                if 0 <= nx < n and 0 <= ny < m:
+                    if visited[nx][ny] == -1:
+                        if maps[nx][ny] != 'X':
+                            q.append([nx,ny])
+                            visited[nx][ny] = visited[x][y] + 1
+        return None
+    cnt = bfs(sx,sy,'L')
+    if cnt == None:
+        return -1
+    answer += cnt[0]
+    cnt = bfs(cnt[1],cnt[2],'E')
+    if cnt == None:
+        return -1
+    answer += cnt[0]
+    return answer

@@ -1,6 +1,6 @@
 from collections import deque
 def solution(maps):
-    def get_reach_time(maps, start, end):
+    def bfs(maps, start, end):
         d, q, visited = [(-1, 0), (0, -1), (1, 0), (0, 1)], deque([(*start, 0)]), set(start)
         R, C = len(maps), len(maps[0])
         while q:
@@ -13,5 +13,5 @@ def solution(maps):
                     q.append((nr, nc, time + 1))
         return 0
     visit = {maps[r][c]: (r, c) for r in range(len(maps)) for c in range(len(maps[0])) if maps[r][c] in "SEL"}
-    a, b = get_reach_time(maps, visit["S"], "L"), get_reach_time(maps, visit["L"], "E")
+    a, b = bfs(maps, visit["S"], "L"), bfs(maps, visit["L"], "E")
     return a + b if a and b else -1

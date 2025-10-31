@@ -1,9 +1,7 @@
 def solution(n, computers):
-    p = list(range(n))
-    def f(x):
-        if p[x] != x: p[x] = f(p[x])
-        return p[x]
-    for i in range(n):
-        for j in range(n):
-            if computers[i][j]: p[f(j)] = f(i)
-    return len({f(i) for i in range(n)})
+    visited = [0] * n
+    def dfs(i):
+        visited[i] = 1
+        for j, computer in enumerate(computers[i]):
+            if computer and not visited[j]: dfs(j)
+    return sum([not v and not dfs(i) for i, v in enumerate(visited)])

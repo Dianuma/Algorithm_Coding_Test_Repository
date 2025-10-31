@@ -1,10 +1,9 @@
 def solution(n, computers):
-    vis = [0]*n
-    def dfs(s):
-        st = [s]
-        while st:
-            x = st.pop()
-            if vis[x]: continue
-            vis[x] = 1
-            st += [j for j,v in enumerate(computers[x]) if v and not vis[j]]
-    return sum((dfs(i) or 1) for i in range(n) if not vis[i])
+    p = list(range(n))
+    def f(x):
+        if p[x] != x: p[x] = f(p[x])
+        return p[x]
+    for i in range(n):
+        for j in range(n):
+            if computers[i][j]: p[f(j)] = f(i)
+    return len({f(i) for i in range(n)})

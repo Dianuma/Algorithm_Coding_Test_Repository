@@ -1,14 +1,32 @@
 from collections import deque
+
 def solution(board):
-    def bfs(s):
-        q, n = deque([s]), len(board)
-        dirs, vis = [(-1,0),(0,1),(1,0),(0,-1)], [[1e9] * n for _ in range(n)]
-        while q:
-            r, c, d, cost = q.popleft()
-            for i, (dr, dc) in enumerate(dirs):
-                nr, nc, ncost= r + dr, c + dc, 500 * ( i != d ) + 100 + cost
-                if 0 <= nr < n and 0 <= nc < n and board[nr][nc] == 0 and ncost < vis[nr][nc]:
-                    vis[nr][nc] = ncost
-                    q.append((nr, nc, i, ncost))
-        return vis[-1][-1]
-    return min(bfs((0,0,1,0)), bfs((0,0,2,0)))
+    n = len(board)
+    INF = int(1e9)
+
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    cost = [[[INF] * 4 for _ in range(n)] for _ in range(n)]
+    q = deque()
+
+    for i, (dx, dy) in enumerate(directions):
+        nx, ny = dx, dy
+        if 0 <= nx < n and 0 <= ny < n and board[nx][ny] == 0:
+            cost[nx][ny][i] = 100
+            q.append((nx, ny, i, 100))
+
+    while q:
+        x, y, dir_prev, c = q.popleft()
+
+        for i, (dx, dy) in enumerate(directions):
+            nx, ny = x + dx, y + dy
+            if 0 <= nx < n and 0 <= ny < n and board[nx][ny] == 0:
+                if i == dir_prev:
+                    nc = c + 100
+                else:
+                    nc = c + 600
+                if nc < cost[nx][ny][i]:
+                    cost[nx][ny][i] = nc
+                    q.append((nx, ny, i, nc))
+
+    return min(cost[n-1][n-1])

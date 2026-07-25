@@ -1,27 +1,26 @@
-class Solution {
-    static int N = 1_000_000;
 
+class Solution {
     public int[] solution(int[][] edges) {
-        int[] in = new int[N];
-        int[] out = new int[N];
-        for(int[] edge : edges) {
-            out[edge[0]-1]++;
-            in[edge[1]-1]++;
+        int N = 1_000_000;
+        int[] input = new int[N], output = new int[N];
+        int[] answer = new int[4];
+        
+        for ( int[] edge : edges ) {
+            output[edge[0]-1]++;
+            input[edge[1]-1]++;
         }
-        int start = 0;
-        int eight = 0;
-        int stick = 0;
-        for(int i=0; i<N; i++) {
-            if(out[i] >= 2) {
-                if(in[i] == 0) {
-                    start = i;
-                }else {
-                    eight++;
+        
+        for ( int i = 0 ; i < N ; i++ ) {
+            if ( output[i] >= 2 ) {
+                if ( input[i] == 0 ) answer[0] = i + 1;
+                else {
+                    answer[3]++;
                 }
-            }else if(out[i] == 0 && in[i] > 0){
-                stick++;
-            }
+            } 
+            if ( input[i] >= 1 && output[i] == 0 ) answer[2]++;
         }
-        return new int[] {start+1,out[start]-eight-stick,stick,eight};
+        
+        answer[1] = output[answer[0]-1] - answer[2] - answer[3];
+        return answer;
     }
-}
+} 

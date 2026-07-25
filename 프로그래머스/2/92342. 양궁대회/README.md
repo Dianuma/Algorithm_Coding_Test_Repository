@@ -1,10 +1,10 @@
 # [level 2] 양궁대회 - 92342 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92342#) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92342?utm_source=chatgpt.com) 
 
 ### 성능 요약
 
-메모리: 77.6 MB, 시간: 5.65 ms
+메모리: 87.6 MB, 시간: 0.71 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 10월 03일 01:57:06
+2026년 07월 25일 19:47:08
 
 ### 문제 설명
 

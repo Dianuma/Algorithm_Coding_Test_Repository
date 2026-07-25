@@ -1,10 +1,10 @@
 # [level 3] 파괴되지 않은 건물 - 92344 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/92344?utm_source=chatgpt.com) 
 
 ### 성능 요약
 
-메모리: 212 MB, 시간: 58.34 ms
+메모리: 184 MB, 시간: 30.81 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 10월 03일 16:04:56
+2026년 07월 25일 19:46:53
 
 ### 문제 설명
 

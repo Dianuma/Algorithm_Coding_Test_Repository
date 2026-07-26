@@ -1,27 +1,33 @@
 import java.util.*;
 
 class Solution {
-    public Object solution(int[] priorities, int location) {
-        int answer = 1;
-        Queue<int[]> q = new LinkedList<>();
-        List<Integer> list = new ArrayList<>();
+    public int solution(int[] priorities, int location) {
+        Deque<int[]> q = new ArrayDeque<>();
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        int answer = 0;
         
         for ( int i = 0 ; i < priorities.length ; i++ ) {
-            q.add(new int[]{priorities[i], i});
-            list.add(priorities[i]);
+            q.offer(new int[]{priorities[i], i});
+            pq.offer(priorities[i]);
         }
         
-        list.sort((a, b) -> b - a );
-        
-        while ( list.size() > 0 ) {
-            int[] tmp = q.poll();
-            if ( tmp[0] == list.get(0) ) {
-                if ( tmp[1] == location ) return answer;
-                answer++;
-                list.remove(0);
-            } else q.add(tmp);
+        while ( !pq.isEmpty() ) {
+            answer++;
+            int currPri = pq.poll();
+            
+            while ( true ) {
+                int[] curr = q.poll();
+                if ( curr[0] == currPri && curr[1] == location ) return answer;
+                if ( curr[0] != currPri ) {
+                    q.offer(curr);
+                    continue;
+                } else {
+                    break;
+                }
+            }
         }
         
-        return list;
+        
+        return answer;
     }
 }
